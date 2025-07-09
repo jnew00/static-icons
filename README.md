@@ -11,5 +11,7 @@ These are my PNG icons hosted for Unraid or other purposes to hotlink
 [Raw Link](https://raw.githubusercontent.com/jnew00/static-icons/main/email-envelope-red-64px.png)
 
 ### NFT
-![BAYC #6735](https://raw.githubusercontent.com/jnew00/static-icons/main/ape-hi-rez.png)
-[Raw Link](https://raw.githubusercontent.com/jnew00/static-icons/main/ape-hi-rez.png)
+
+<a href="https://raw.githubusercontent.com/jnew00/static-icons/main/ape-hi-rez.png">
+  <img src="https://raw.githubusercontent.com/jnew00/static-icons/main/ape-hi-rez.png" width="128">
+</a>

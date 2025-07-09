@@ -8,6 +8,9 @@ BRANCH = "main"
 # Base URL for raw images
 BASE_URL = f"https://raw.githubusercontent.com/{USERNAME}/{REPO}/{BRANCH}/"
 
+# How many icons per row in each table
+COLUMNS = 4
+
 # Thumbnail width (in pixels) - configurable
 THUMBNAIL_WIDTH = 64
 
@@ -32,19 +35,26 @@ INSTRUCTIONS = f"""
 
 ✅ **Example Direct URL:**
 ```
-https://raw.githubusercontent.com/{USERNAME}/{REPO}/{BRANCH}/folder/icon.png
+https://raw.githubusercontent.com/jnew00/static-icons/main/folder/icon.png
 ```
 """
 
-def generate_table(filepaths):
+def generate_table(filepaths, columns):
     """Generate a Markdown table with thumbnails and filenames."""
     lines = []
-    lines.append("| Icon | Filename |")
-    lines.append("|:-:|:-:|")
-    for f in filepaths:
-        img = f'<a href="{BASE_URL}{f}"><img src="{BASE_URL}{f}" width="{THUMBNAIL_WIDTH}"></a>'
-        name = f"`{os.path.basename(f)}`"
-        lines.append(f"| {img} | {name} |")
+    # Split files into rows
+    rows = [filepaths[i:i + columns] for i in range(0, len(filepaths), columns)]
+    for row in rows:
+        # Row with images
+        line_img = "| " + " | ".join(
+            f'<a href="{BASE_URL}{f}"><img src="{BASE_URL}{f}" width="{THUMBNAIL_WIDTH}"></a>'
+            for f in row
+        ) + " |"
+        # Row with filenames
+        line_text = "| " + " | ".join(
+            f"`{os.path.basename(f)}`" for f in row
+        ) + " |"
+        lines.extend([line_img, line_text])
     return "\n".join(lines)
 
 def main():
@@ -70,8 +80,7 @@ def main():
             if icons:
                 # Add heading for this folder
                 markdown += f"\n## 📁 {folder.capitalize()}\n\n"
-                markdown += generate_table(icons)
-                markdown += "\n"
+                markdown += generate_table(icons, COLUMNS)
             else:
                 pass
 
@@ -80,7 +89,7 @@ def main():
     with open(OUTPUT, "w", encoding="utf-8") as f:
         f.write(markdown)
 
-    print(f"\n✅ README.md generated with icons grouped by folder, one per row.\n")
+    print(f"\n✅ README.md generated with icons grouped by folder.\n")
 
 if __name__ == "__main__":
     main()
